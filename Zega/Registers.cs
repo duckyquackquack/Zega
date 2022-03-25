@@ -9,7 +9,13 @@
         public byte C { get; set; }
         public byte D { get; set; }
         public byte E { get; set; }
-        public Flags F { get; set; }
+
+        public Flags F
+        {
+            get => _f;
+            set => _f = value;
+        }
+
         public byte H { get; set; }
         public byte L { get; set; }
 
@@ -34,6 +40,9 @@
         private byte _shadowH;
         private byte _shadowL;
 
+        // Private backing field so we can use the Extension methods on something that isn't just a copy
+        private Flags _f;
+
         public void WriteToShadowRegisters()
         {
             _shadowA = A;
@@ -56,6 +65,12 @@
             F = _shadowF;
             H = _shadowH;
             L = _shadowL;
+        }
+
+        public void SetFlag(Flags flagToSet, bool on)
+        {
+            if (on) _f.Set(flagToSet);
+            else _f.Reset(flagToSet);
         }
     }
 }

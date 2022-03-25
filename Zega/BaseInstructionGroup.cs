@@ -14,7 +14,10 @@
 
         public void Execute(byte opCode)
         {
-            _instructions[opCode].Execute(opCode);
+            if (_instructions.TryGetValue(opCode, out var instruction))
+                instruction.Execute(opCode);
+            else
+                throw new Exception($"Unrecognized opCode 0x{opCode:X} (Prefix = 0x{Prefix:X})");
         }
     }
 }

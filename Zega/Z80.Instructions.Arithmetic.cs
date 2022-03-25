@@ -6,7 +6,24 @@
         {
             var register = opCode & 0b00000111;
             var n = GetRegisterValue(register);
-            Registers.A = (byte) ((Registers.A + n) & 0xFF);
+            var sum = (Registers.A + n);
+
+            SetArithmeticGroupFlags(sum);
+            Registers.A = (byte) sum;
+        }
+
+        private void SetArithmeticGroupFlags(int result)
+        {
+            Registers.SetFlag(Flags.Sign, (result & 0b10000000) > 0);
+            Registers.SetFlag(Flags.Zero, result == 0);
+            Registers.SetFlag(Flags.Subtract, false);
+
+            Registers.SetFlag(Flags.Carry, result > 255);
+            Registers.SetFlag(Flags.HalfCarry, true);
+            Registers.SetFlag(Flags.ParityOverflow, true);
+
+            Registers.SetFlag(Flags.UndocumentedBit3, (result & 0b00001000) > 0);
+            Registers.SetFlag(Flags.UndocumentedBit5, (result & 0b00100000) > 0);
         }
 
         private byte GetRegisterValue(int registerCode)

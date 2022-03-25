@@ -7,8 +7,31 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Fuse\JsonFormat\Expected.json" />
+    <None Remove="Fuse\JsonFormat\In.json" />
+    <None Remove="Fuse\Tests.Expected" />
+    <None Remove="Fuse\Tests.In" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Fuse\JsonFormat\Expected.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Fuse\JsonFormat\In.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Fuse\OriginalFormat\Tests.Expected">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Fuse\OriginalFormat\Tests.In">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
     <PackageReference Include="Moq" Version="4.17.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="NUnit" Version="3.13.3" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.2.1" />
   </ItemGroup>

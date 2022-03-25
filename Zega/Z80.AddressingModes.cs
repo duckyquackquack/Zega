@@ -2,6 +2,8 @@
 {
     public partial class Z80
     {
+        // TODO - see if we can actually live without these. for the time being I can't see them adding much help
+
         private void None(byte opCode)
         { }
 
@@ -9,9 +11,7 @@
         { }
 
         private void Immediate(byte opCode)
-        {
-            _nextMemoryLocation = Registers.ProgramCounter++;
-        }
+        { }
 
         private void ExtendedImmediate(byte opCode)
         { }
