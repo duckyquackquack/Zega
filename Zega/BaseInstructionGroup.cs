@@ -17,7 +17,7 @@
             if (_instructions.TryGetValue(opCode, out var instruction))
             {
                 instruction.Execute(opCode);
-                return instruction.MCycles;
+                return (uint) instruction.TCycles.Sum();
             }
 
             throw new Exception($"Unrecognized opCode 0x{opCode:X} (Prefix = 0x{Prefix:X})");

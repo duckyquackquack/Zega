@@ -16,10 +16,10 @@ namespace Zega.Tests
             var cpu = new Z80(memory, registers);
 
             uint cyclesRan = 0;
-            while (cyclesRan < testCase.Cycles) // TODO check whether fuse tests are for M cycles or T cycles
+            while (cyclesRan < testCase.Cycles)
                 cyclesRan += cpu.Step();
 
-            AssertFinalState(cpu, memory, expectedCase);
+            AssertFinalState(cpu, memory, expectedCase, cyclesRan);
         }
 
         private static IMemory CreateMemoryFromTestCase(FuseTestCase testCase)
@@ -38,10 +38,9 @@ namespace Zega.Tests
             return memory;
         }
 
-        private static void AssertFinalState(Z80 cpu, IMemory memory, FuseExpectedCase expectedCase)
+        private static void AssertFinalState(Z80 cpu, IMemory memory, FuseExpectedCase expectedCase, uint cyclesRan)
         {
             // TODO find a way on asserting the events
-            // TODO find a way to assert on elapsed cycles
 
             Assert.Multiple(() =>
             {
@@ -68,6 +67,8 @@ namespace Zega.Tests
                         address++;
                     }
                 }
+
+                Assert.That(cyclesRan, Is.EqualTo(expectedCase.Cycles), () => "Cycles");
             });
         }
 
