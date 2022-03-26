@@ -12,12 +12,15 @@
 
         public byte Prefix { get; }
 
-        public void Execute(byte opCode)
+        public uint Execute(byte opCode)
         {
             if (_instructions.TryGetValue(opCode, out var instruction))
+            {
                 instruction.Execute(opCode);
-            else
-                throw new Exception($"Unrecognized opCode 0x{opCode:X} (Prefix = 0x{Prefix:X})");
+                return instruction.MCycles;
+            }
+
+            throw new Exception($"Unrecognized opCode 0x{opCode:X} (Prefix = 0x{Prefix:X})");
         }
     }
 }
