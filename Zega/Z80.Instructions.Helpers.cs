@@ -32,6 +32,22 @@
             }
         }
 
+        private bool GetFlagStatusFromFlagCode(int flagCode)
+        {
+            return flagCode switch
+            {
+                0b00000000 => !Registers.F.IsSet(Flags.Zero),
+                0b00000001 => Registers.F.IsSet(Flags.Zero),
+                0b00000010 => !Registers.F.IsSet(Flags.Carry),
+                0b00000011 => Registers.F.IsSet(Flags.Carry),
+                0b00000100 => !Registers.F.IsSet(Flags.ParityOverflow),
+                0b00000101 => Registers.F.IsSet(Flags.ParityOverflow),
+                0b00000110 => !Registers.F.IsSet(Flags.Sign),
+                0b00000111 => Registers.F.IsSet(Flags.Sign),
+                _ => throw new NotSupportedException($"Unrecognized flag code: 0x{flagCode:X}")
+            };
+        }
+
         private byte ReadImmediateByte()
         {
             return _memory.ReadByte(Registers.ProgramCounter++);

@@ -13,4 +13,11 @@
             : base(instructions, 0xDD)
         { }
     }
+
+    public class FDInstructionGroup : BaseInstructionGroup
+    {
+        public FDInstructionGroup(Dictionary<byte, Instruction> instructions) 
+            : base(instructions, 0xFD)
+        { }
+    }
 }

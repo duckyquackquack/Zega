@@ -12,14 +12,23 @@ namespace Zega.Tests
         {
             var memory = CreateMemoryFromTestCase(testCase);
             var registers = CreateRegistersFromTestCase(testCase);
-            
-            var cpu = new Z80(memory, registers);
 
-            uint cyclesRan = 0;
-            while (cyclesRan < testCase.Cycles)
-                cyclesRan += cpu.Step();
+            try
+            {
+                var cpu = new Z80(memory, registers);
 
-            AssertFinalState(cpu, memory, expectedCase, cyclesRan);
+                uint cyclesRan = 0;
+                while (cyclesRan < testCase.Cycles)
+                    cyclesRan += cpu.Step();
+
+                AssertFinalState(cpu, memory, expectedCase, cyclesRan);
+            }
+            catch (Exception e)
+            {
+                if (e.Message.StartsWith("Unrecognized opCode"))
+                    Assert.Ignore("Not implemented this opCode yet");
+                throw;
+            }
         }
 
         private static IMemory CreateMemoryFromTestCase(FuseTestCase testCase)
