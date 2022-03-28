@@ -53,10 +53,10 @@ namespace Zega.Tests
 
             Assert.Multiple(() =>
             {
-                Assert.That(cpu.Registers.AF, Is.EqualTo(expectedCase.Af), () => "AF");
-                Assert.That(cpu.Registers.BC, Is.EqualTo(expectedCase.Bc), () => "BC");
-                Assert.That(cpu.Registers.DE, Is.EqualTo(expectedCase.De), () => "DE");
-                Assert.That(cpu.Registers.HL, Is.EqualTo(expectedCase.Hl), () => "HL");
+                Assert.That(Convert.ToString(cpu.Registers.AF, 2), Is.EqualTo(Convert.ToString(expectedCase.Af, 2)), () => $"AF. Got: A = 0x{cpu.Registers.A:X}, F = 0b{Convert.ToString((int) cpu.Registers.F, 2)}");
+                Assert.That(cpu.Registers.BC, Is.EqualTo(expectedCase.Bc), () => $"BC. Got: B = 0x{cpu.Registers.B:X}, C = 0x{cpu.Registers.C:X}");
+                Assert.That(cpu.Registers.DE, Is.EqualTo(expectedCase.De), () => $"DE. Got: D = 0x{cpu.Registers.D:X}, E = 0x{cpu.Registers.E:X}");
+                Assert.That(cpu.Registers.HL, Is.EqualTo(expectedCase.Hl), () => $"HL. Got: H = 0x{cpu.Registers.H:X}, L = 0x{cpu.Registers.L:X}");
                 Assert.That(cpu.Registers.ShadowAF, Is.EqualTo(expectedCase.ShadowAf), () => "ShadowAF");
                 Assert.That(cpu.Registers.ShadowBC, Is.EqualTo(expectedCase.ShadowBc), () => "ShadowBC");
                 Assert.That(cpu.Registers.ShadowDE, Is.EqualTo(expectedCase.ShadowDe), () => "ShadowDE");

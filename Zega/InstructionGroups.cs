@@ -7,6 +7,13 @@
         { }
     }
 
+    public class CBInstructionGroup : BaseInstructionGroup
+    {
+        public CBInstructionGroup(Dictionary<byte, Instruction> instructions)
+            : base(instructions, 0xCB)
+        { }
+    }
+
     public class DDInstructionGroup : BaseInstructionGroup
     {
         public DDInstructionGroup(Dictionary<byte, Instruction> instructions)
