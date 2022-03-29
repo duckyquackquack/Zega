@@ -2,7 +2,7 @@
 {
     public partial class Z80
     {
-        public void BitBR(byte opCode)
+        private void BitBR(byte opCode)
         {
             var bitToTest = (opCode & 0b00111000) >> 3;
             var registerCode = opCode & 7;
@@ -13,7 +13,7 @@
             SetBitGroupFlags(bitValue, bitToTest, registerValue);
         }
 
-        public void BitBHL(byte opCode)
+        private void BitBHL(byte opCode)
         {
             var bitToTest = (opCode & 0b00111000) >> 3;
             var valueToTest = _memory.ReadByte(Registers.HL);
@@ -22,7 +22,7 @@
             SetBitGroupFlags(bitValue, bitToTest, valueToTest);
         }
 
-        public void SetBR(byte opCode)
+        private void SetBR(byte opCode)
         {
             var bitToSet = (opCode & 0b00111000) >> 3;
             var registerCode = opCode & 7;
@@ -31,7 +31,7 @@
             SetRegisterValue(registerCode, (byte)(registerValue | (1 << bitToSet)));
         }
 
-        public void SetBHL(byte opCode)
+        private void SetBHL(byte opCode)
         {
             var bitToSet = (opCode & 0b00111000) >> 3;
             var valueToTest = _memory.ReadByte(Registers.HL);
@@ -39,7 +39,7 @@
             _memory.WriteByte(Registers.HL, (byte)(valueToTest | (1 << bitToSet)));
         }
 
-        public void ResBR(byte opCode)
+        private void ResBR(byte opCode)
         {
             var bitToReset = (opCode & 0b00111000) >> 3;
             var registerCode = opCode & 7;
@@ -48,7 +48,7 @@
             SetRegisterValue(registerCode, (byte)(registerValue & ~(1 << bitToReset)));
         }
 
-        public void ResBHL(byte opCode)
+        private void ResBHL(byte opCode)
         {
             var bitToReset = (opCode & 0b00111000) >> 3;
             var valueToTest = _memory.ReadByte(Registers.HL);

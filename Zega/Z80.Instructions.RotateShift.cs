@@ -2,7 +2,7 @@
 {
     public partial class Z80
     {
-        public void RotateLeftCarryA(byte opCode)
+        private void RotateLeftCarryA(byte opCode)
         {
             var shiftedA = Registers.A << 1;
             Registers.A = (byte) shiftedA;
@@ -16,7 +16,7 @@
             SetRotateLeftFlags(carry);
         }
 
-        public void RotateLeftA(byte opCode)
+        private void RotateLeftA(byte opCode)
         {
             var oldCarry = Registers.F.IsSet(Flags.Carry);
             var newCarry = (Registers.A & 0b10000000) > 0;
