@@ -32,6 +32,18 @@
             }
         }
 
+        private void SetRegisterPairValue(int registerCode, ushort value)
+        {
+            switch (registerCode)
+            {
+                case 0b00: Registers.BC = value; break;
+                case 0b01: Registers.DE = value; break;
+                case 0b10: Registers.HL = value; break;
+                case 0b11: Registers.StackPointer = value; break;
+                default: throw new NotSupportedException($"Unrecognized register code: 0x{registerCode:X}");
+            }
+        }
+
         private bool GetFlagStatusFromFlagCode(int flagCode)
         {
             return flagCode switch

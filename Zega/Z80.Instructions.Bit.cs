@@ -10,14 +10,16 @@
             var registerValue = GetRegisterValue(registerCode);
             var bitValue = registerValue & (1 << bitToTest);
 
-            Registers.SetFlag(Flags.Subtract, false);
-            Registers.SetFlag(Flags.ParityOverflow, bitValue == 0);
-            Registers.SetFlag(Flags.HalfCarry, true);
-            Registers.SetFlag(Flags.Zero, bitValue == 0);
-            Registers.SetFlag(Flags.Sign, bitToTest == 7 && bitValue > 0);
+            SetBitGroupFlags(bitValue, bitToTest, registerValue);
+        }
 
-            Registers.SetFlag(Flags.UndocumentedBit3, (registerValue & 8) > 0);
-            Registers.SetFlag(Flags.UndocumentedBit5, (registerValue & 32) > 0);
+        public void BitBHL(byte opCode)
+        {
+            var bitToTest = (opCode & 0b00111000) >> 3;
+            var valueToTest = _memory.ReadByte(Registers.HL);
+            var bitValue = valueToTest & (1 << bitToTest);
+
+            SetBitGroupFlags(bitValue, bitToTest, valueToTest);
         }
 
         public void SetBR(byte opCode)
@@ -29,6 +31,14 @@
             SetRegisterValue(registerCode, (byte)(registerValue | (1 << bitToSet)));
         }
 
+        public void SetBHL(byte opCode)
+        {
+            var bitToSet = (opCode & 0b00111000) >> 3;
+            var valueToTest = _memory.ReadByte(Registers.HL);
+
+            _memory.WriteByte(Registers.HL, (byte)(valueToTest | (1 << bitToSet)));
+        }
+
         public void ResBR(byte opCode)
         {
             var bitToReset = (opCode & 0b00111000) >> 3;
@@ -36,6 +46,26 @@
             var registerValue = GetRegisterValue(registerCode);
 
             SetRegisterValue(registerCode, (byte)(registerValue & ~(1 << bitToReset)));
+        }
+
+        public void ResBHL(byte opCode)
+        {
+            var bitToReset = (opCode & 0b00111000) >> 3;
+            var valueToTest = _memory.ReadByte(Registers.HL);
+
+            _memory.WriteByte(Registers.HL, (byte)(valueToTest & ~(1 << bitToReset)));
+        }
+
+        private void SetBitGroupFlags(int bitValue, int bitToTest, byte valueToTest)
+        {
+            Registers.SetFlag(Flags.Subtract, false);
+            Registers.SetFlag(Flags.ParityOverflow, bitValue == 0);
+            Registers.SetFlag(Flags.HalfCarry, true);
+            Registers.SetFlag(Flags.Zero, bitValue == 0);
+            Registers.SetFlag(Flags.Sign, bitToTest == 7 && bitValue > 0);
+
+            Registers.SetFlag(Flags.UndocumentedBit3, (valueToTest & 8) > 0);
+            Registers.SetFlag(Flags.UndocumentedBit5, (valueToTest & 32) > 0);
         }
     }
 }

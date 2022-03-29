@@ -108,6 +108,16 @@ namespace Zega
             _memory.WriteByte(hi.CombineWith(lo), Registers.A);
         }
 
+        public void LoadDDNN(byte opCode)
+        {
+            var lo = ReadImmediateByte();
+            var hi = ReadImmediateByte();
+
+            var registerPairCode = (opCode & 0b00110000) >> 4;
+
+            SetRegisterPairValue(registerPairCode, hi.CombineWith(lo));
+        }
+
         private void LoadAFromAddress(ushort address)
         {
             Registers.A = _memory.ReadByte(address);

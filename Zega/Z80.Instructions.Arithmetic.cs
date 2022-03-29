@@ -8,23 +8,37 @@
             var n = GetRegisterValue(register);
             var sum = Registers.A + n;
 
-            SetArithmeticGroupFlags(Registers.A, n, sum);
+            Registers.SetFlag(Flags.Sign, (sum & 128) > 0);
+            Registers.SetFlag(Flags.Zero, sum == 0);
+            Registers.SetFlag(Flags.Subtract, false);
+
+            Registers.SetFlag(Flags.Carry, (sum & 256) == 256);
+            Registers.SetFlag(Flags.HalfCarry, (((Registers.A & 15) + (n & 15)) & 16) == 16);
+            Registers.SetFlag(Flags.ParityOverflow, true); // TODO set this correctly
+
+            Registers.SetFlag(Flags.UndocumentedBit3, (sum & 8) > 0);
+            Registers.SetFlag(Flags.UndocumentedBit5, (sum & 32) > 0);
+
             Registers.A = (byte) sum;
         }
 
-        // TODO - if firstOperand always turns out to be register A, then just use it directly rather than having another param
-        private void SetArithmeticGroupFlags(byte firstOperand, byte secondOperand, int result)
+        public void IncrementR(byte opCode)
         {
-            Registers.SetFlag(Flags.Sign, (result & 128) > 0);
-            Registers.SetFlag(Flags.Zero, result == 0);
+            var registerCode = (opCode & 56) >> 3;
+            var registerValue = GetRegisterValue(registerCode);
+            var sum = registerValue + 1;
+
+            Registers.SetFlag(Flags.Sign, (sum & 128) > 0);
+            Registers.SetFlag(Flags.Zero, (sbyte) sum == 0);
             Registers.SetFlag(Flags.Subtract, false);
 
-            Registers.SetFlag(Flags.Carry, (result & 256) == 256);
-            Registers.SetFlag(Flags.HalfCarry, (((firstOperand & 15) + (secondOperand & 15)) & 16) == 16);
-            Registers.SetFlag(Flags.ParityOverflow, true); // TODO set this correctly
+            Registers.SetFlag(Flags.HalfCarry, (((registerValue & 15) + (1 & 15)) & 16) == 16);
+            Registers.SetFlag(Flags.ParityOverflow, registerValue == 0x7F);
 
-            Registers.SetFlag(Flags.UndocumentedBit3, (result & 8) > 0);
-            Registers.SetFlag(Flags.UndocumentedBit5, (result & 32) > 0);
+            Registers.SetFlag(Flags.UndocumentedBit3, (sum & 8) > 0);
+            Registers.SetFlag(Flags.UndocumentedBit5, (sum & 32) > 0);
+
+            SetRegisterValue(registerCode, (byte) sum);
         }
     }
 }
