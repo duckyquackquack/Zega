@@ -1,4 +1,4 @@
-﻿namespace Zega
+﻿namespace Zega.Cpu
 {
     [Flags]
     public enum Flags

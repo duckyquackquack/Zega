@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using Moq;
 using NUnit.Framework;
+using Zega.Cpu;
 
 namespace Zega.Tests
 {

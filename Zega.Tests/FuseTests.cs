@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using NUnit.Framework;
+using Zega.Cpu;
 using Zega.Tests.Fuse.JsonFormat;
 
 namespace Zega.Tests

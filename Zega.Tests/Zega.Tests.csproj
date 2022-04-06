@@ -37,7 +37,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Zega\Zega.csproj" />
+    <ProjectReference Include="..\Zega\Zega.Cpu.csproj" />
   </ItemGroup>
 
 </Project>

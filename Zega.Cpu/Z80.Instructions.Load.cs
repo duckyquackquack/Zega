@@ -1,6 +1,4 @@
-﻿using System.Reflection.Emit;
-
-namespace Zega
+﻿namespace Zega.Cpu
 {
     public partial class Z80
     {

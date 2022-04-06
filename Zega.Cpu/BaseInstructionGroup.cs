@@ -1,4 +1,4 @@
-﻿namespace Zega
+﻿namespace Zega.Cpu
 {
     public abstract class BaseInstructionGroup : IInstructionGroup
     {

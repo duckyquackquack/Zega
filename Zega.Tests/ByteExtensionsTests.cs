@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using Zega.Cpu;
 
 namespace Zega.Tests
 {
