@@ -2,50 +2,37 @@
 {
     internal enum LatchType
     {
-        Tone,
-        Volume
+        Control,
+        Attenuation
     }
 
-    internal class SoundChip
+    /// <summary>
+    /// An SN76489 sound chip
+    /// </summary>
+    public class SoundChip : ISoundChip
     {
-        private static readonly uint[] Volumes;
+        private const uint NoiseChannel = 3;
+        private readonly IToneChannel[] _toneChannels;
+        private readonly INoiseChannel _noiseChannel;
 
-        static SoundChip()
-        {
-            // 0x0 means full volume and 0xF means silence
-            // each volume step is 2 decibels quieter (80%) than the last
-
-            const byte volumeSteps = 16;
-            const uint maxVolume = 8000;
-            const float volumeReductionFactor = 0.8f;
-
-            Volumes = new uint[volumeSteps];
-            Volumes[0] = maxVolume;
-
-            for (var i = 1; i < volumeSteps; i++)
-            {
-                Volumes[i] = (uint)(Volumes[i - 1] * volumeReductionFactor);
-            }
-
-            Volumes[^1] = 0;
-        }
-
-        private readonly IChannel[] _channels;
         private byte _latchedChannel;
         private LatchType _latchType;
 
-        public SoundChip()
+        public SoundChip(IToneChannel[]? toneChannels = null, INoiseChannel? noiseChannel = null)
         {
             _latchedChannel = 0;
-            _latchType = LatchType.Volume;
+            _latchType = LatchType.Attenuation;
 
-            _channels = new IChannel[]
+            if (toneChannels != null && toneChannels.Length != 3)
+                throw new ArgumentException($"Expected only 3 tone channels, got {toneChannels.Length}");
+
+            _toneChannels = toneChannels ?? new IToneChannel[]
             {
                 new SquareWaveChannel(),
                 new SquareWaveChannel(),
-                new SquareWaveChannel(),
-                new NoiseChannel()
+                new SquareWaveChannel()
             };
+            _noiseChannel = noiseChannel ?? new NoiseChannel();
         }
 
         public void Write(byte data)
@@ -59,19 +46,85 @@
             _latchedChannel = (byte)((data & 96) >> 5);
             _latchType = (LatchType)((data & 16) >> 4);
 
-            WriteToCurrentLatch((byte)(data & 15));
+            var dataToWrite = (byte)(data & 15);
+
+            if (_latchedChannel < NoiseChannel)
+                Write4BitsToToneChannel(dataToWrite);
+            else 
+                Write4BitsToNoiseChannel(dataToWrite);
         }
 
         private void WriteToCurrentLatch(byte data)
         {
+            var dataToWrite = (byte) (data & 63);
+
+            if (_latchedChannel < NoiseChannel)
+                Write6BitsToToneChannel(dataToWrite);
+            else 
+                Write6BitsToNoiseChannel(dataToWrite);
+        }
+
+        private void Write4BitsToNoiseChannel(byte data)
+        {
             switch (_latchType)
             {
-                case LatchType.Tone:
-                    _channels[_latchedChannel].SetTone(data);
+                case LatchType.Control:
+                    _noiseChannel.Control = data;
                     break;
 
-                case LatchType.Volume:
-                    _channels[_latchedChannel].SetVolume((byte) (data & 15));
+                case LatchType.Attenuation:
+                    _noiseChannel.Volume = data;
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(_latchType));
+            }
+        }
+
+        private void Write4BitsToToneChannel(byte data)
+        {
+            switch (_latchType)
+            {
+                case LatchType.Control:
+                    _toneChannels[_latchedChannel].Frequency = data;
+                    break;
+
+                case LatchType.Attenuation:
+                    _toneChannels[_latchedChannel].Volume = data;
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(_latchType));
+            }
+        }
+
+        private void Write6BitsToNoiseChannel(byte data)
+        {
+            switch (_latchType)
+            {
+                case LatchType.Control:
+                    _noiseChannel.Control |= (ushort) ((data & 63) << 4);
+                    break;
+
+                case LatchType.Attenuation:
+                    _noiseChannel.Volume = (byte) (data & 15);
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(_latchType));
+            }
+        }
+
+        private void Write6BitsToToneChannel(byte data)
+        {
+            switch (_latchType)
+            {
+                case LatchType.Control:
+                    _toneChannels[_latchedChannel].Frequency |= (ushort) ((data & 63) << 4);
+                    break;
+
+                case LatchType.Attenuation:
+                    _toneChannels[_latchedChannel].Volume = (byte) (data & 15);
                     break;
 
                 default:

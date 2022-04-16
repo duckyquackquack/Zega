@@ -218,9 +218,11 @@
                     { 0xFE, new Instruction(SetBHL, TCycles.T4443) },
                     { 0xFF, new Instruction(SetBR, TCycles.T44) }
                 }),
-
                 new DDInstructionGroup(new Dictionary<byte, Instruction>
                 {
+                    { 0x21, new Instruction(LoadIndexXNN, TCycles.T4433) },
+                    { 0x22, new Instruction(LoadAddressNNFromIndexX, TCycles.T443333) },
+                    { 0x2A, new Instruction(LoadIndexXFromAddressNN, TCycles.T443333) },
                     { 0x36, new Instruction(LoadIXDN, TCycles.T44353) },
                     { 0x46, new Instruction(LoadRIXD, TCycles.T44353) },
                     { 0x4E, new Instruction(LoadRIXD, TCycles.T44353) },
@@ -237,10 +239,27 @@
                     { 0x77, new Instruction(LoadIXDR, TCycles.T44353) },
                     { 0x7E, new Instruction(LoadRIXD, TCycles.T44353) },
                     { 0x86, new Instruction(AddAIXD, TCycles.T44353) },
-                    { 0x8E, new Instruction(AddWithCarryAIXD, TCycles.T44353) }
+                    { 0x8E, new Instruction(AddWithCarryAIXD, TCycles.T44353) },
+                    { 0xE1, new Instruction(PopIndexX, TCycles.T4433) },
+                    { 0xE5, new Instruction(PushIndexX, TCycles.T4533) },
+                    { 0xF9, new Instruction(LoadSPFromIndexX, TCycles.T46) }
+                }),
+                new EDInstructionGroup(new Dictionary<byte, Instruction>
+                {
+                    { 0x43, new Instruction(LoadAddressNNFromDD, TCycles.T443333) },
+                    { 0x4B, new Instruction(LoadDDFromAddressNN, TCycles.T443333) },
+                    { 0x53, new Instruction(LoadAddressNNFromDD, TCycles.T443333) },
+                    { 0x5B, new Instruction(LoadDDFromAddressNN, TCycles.T443333) },
+                    { 0x63, new Instruction(LoadAddressNNFromDD, TCycles.T443333) },
+                    { 0x6B, new Instruction(LoadDDFromAddressNN, TCycles.T443333) },
+                    { 0x73, new Instruction(LoadAddressNNFromDD, TCycles.T443333) },
+                    { 0x7B, new Instruction(LoadDDFromAddressNN, TCycles.T443333) }
                 }),
                 new FDInstructionGroup(new Dictionary<byte, Instruction>
                 {
+                    { 0x21, new Instruction(LoadIndexYNN, TCycles.T4433) },
+                    { 0x22, new Instruction(LoadAddressNNFromIndexY, TCycles.T443333) },
+                    { 0x2A, new Instruction(LoadIndexYFromAddressNN, TCycles.T443333) },
                     { 0x36, new Instruction(LoadIYDN, TCycles.T44353) },
                     { 0x46, new Instruction(LoadRIYD, TCycles.T44353) },
                     { 0x4E, new Instruction(LoadRIYD, TCycles.T44353) },
@@ -257,7 +276,10 @@
                     { 0x77, new Instruction(LoadIYDR, TCycles.T44353) },
                     { 0x7E, new Instruction(LoadRIYD, TCycles.T44353) },
                     { 0x86, new Instruction(AddAIYD, TCycles.T44353) },
-                    { 0x8E, new Instruction(AddWithCarryAIYD, TCycles.T44353) }
+                    { 0x8E, new Instruction(AddWithCarryAIYD, TCycles.T44353) },
+                    { 0xE1, new Instruction(PopIndexY, TCycles.T4433) },
+                    { 0xE5, new Instruction(PushIndexY, TCycles.T4533) },
+                    { 0xF9, new Instruction(LoadSPFromIndexY, TCycles.T46) }
                 })
             };
 
@@ -269,6 +291,7 @@
                 { 0x04, new Instruction(IncrementR, TCycles.T4) },
                 { 0x06, new Instruction(LoadRN, TCycles.T43) },
                 { 0x07, new Instruction(RotateLeftCarryA, TCycles.T4) },
+                { 0x08, new Instruction(ExchangeAFShadowAF, TCycles.T4) },
                 { 0x0A, new Instruction(LoadABC, TCycles.T43) },
                 { 0x0C, new Instruction(IncrementR, TCycles.T4) },
                 { 0x0E, new Instruction(LoadRN, TCycles.T43) },
@@ -281,8 +304,10 @@
                 { 0x1C, new Instruction(IncrementR, TCycles.T4) },
                 { 0x1E, new Instruction(LoadRN, TCycles.T43) },
                 { 0x21, new Instruction(LoadDDNN, TCycles.T433) },
+                { 0x22, new Instruction(LoadNNHL, TCycles.T43333) },
                 { 0x24, new Instruction(IncrementR, TCycles.T4) },
                 { 0x26, new Instruction(LoadRN, TCycles.T43) },
+                { 0x2A, new Instruction(LoadHLFromAddressNN, TCycles.T43333) },
                 { 0x2C, new Instruction(IncrementR, TCycles.T4) },
                 { 0x2E, new Instruction(LoadRN, TCycles.T43) },
                 { 0x31, new Instruction(LoadDDNN, TCycles.T433) },
@@ -291,7 +316,6 @@
                 { 0x3A, new Instruction(LoadANN, TCycles.T4333) },
                 { 0x3C, new Instruction(IncrementR, TCycles.T4) },
                 { 0x3E, new Instruction(LoadRN, TCycles.T43) },
-
                 { 0x40, new Instruction(LoadRR, TCycles.T4) },
                 { 0x41, new Instruction(LoadRR, TCycles.T4) },
                 { 0x42, new Instruction(LoadRR, TCycles.T4) },
@@ -378,16 +402,27 @@
                 { 0x94, new Instruction(SubAR, TCycles.T4) },
                 { 0x95, new Instruction(SubAR, TCycles.T4) },
                 { 0x97, new Instruction(SubAR, TCycles.T4) },
+                { 0xC1, new Instruction(PopRegisterPair, TCycles.T433) },
                 { 0xC2, new Instruction(JumpCCNN, TCycles.T433) },
                 { 0xC3, new Instruction(JumpNN, TCycles.T433) },
+                { 0xC5, new Instruction(PushRegisterPair, TCycles.T533) },
                 { 0xC6, new Instruction(AddAN, TCycles.T43) },
                 { 0xCA, new Instruction(JumpCCNN, TCycles.T433) },
                 { 0xCE, new Instruction(AddWithCarryAN, TCycles.T43) },
+                { 0xD1, new Instruction(PopRegisterPair, TCycles.T433) },
                 { 0xD2, new Instruction(JumpCCNN, TCycles.T433) },
+                { 0xD5, new Instruction(PushRegisterPair, TCycles.T533) },
+                { 0xD9, new Instruction(ExchangeX, TCycles.T4) },
                 { 0xDA, new Instruction(JumpCCNN, TCycles.T433) },
+                { 0xE1, new Instruction(PopRegisterPair, TCycles.T433) },
                 { 0xE2, new Instruction(JumpCCNN, TCycles.T433) },
+                { 0xE5, new Instruction(PushRegisterPair, TCycles.T533) },
                 { 0xEA, new Instruction(JumpCCNN, TCycles.T433) },
+                { 0xEB, new Instruction(ExchangeDEHL, TCycles.T4) },
+                { 0xF1, new Instruction(PopRegisterPair, TCycles.T433) },
                 { 0xF2, new Instruction(JumpCCNN, TCycles.T433) },
+                { 0xF5, new Instruction(PushRegisterPair, TCycles.T533) },
+                { 0xF9, new Instruction(LoadSPFromHL, TCycles.T6) },
                 { 0xFA, new Instruction(JumpCCNN, TCycles.T433) }
             });
         }

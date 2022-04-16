@@ -1,31 +1,29 @@
 ﻿namespace Zega.Sound
 {
-    internal class SquareWaveChannel : ChannelBase, IChannel
+    public class SquareWaveChannel : IToneChannel
     {
-        private sbyte _polarity;
+        private int _polarity;
+        private int _counter;
 
+        public byte Volume { get; set; }
+        public ushort Frequency { get; set; }
+        
         public SquareWaveChannel()
         {
             _polarity = 1;
-        }
+            _counter = 0;
 
-        public void SetVolume(byte volume)
-        {
-            Volume = (byte)(volume & 15);
-        }
-
-        public void SetTone(int tone)
-        {
-            throw new NotImplementedException();
+            Volume = 0;
+            Frequency = 0;
         }
 
         public void Tick(int cycles)
         {
-            Counter -= cycles;
-            if (Counter > 0) return;
+            _counter -= cycles;
+            if (_counter > 0) return;
 
             _polarity *= -1;
-            Counter = Tone;
+            _counter = Frequency;
         }
     }
 }

@@ -5,13 +5,15 @@ VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zega.Cpu", "Zega.Cpu\Zega.Cpu.csproj", "{F5422E4A-1F79-4654-AA0B-CBD2E908AA97}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zega.Tests", "Zega.Tests\Zega.Tests.csproj", "{A9577B2F-7436-43B7-BCCA-E1BA95C8EC1F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zega.Cpu.Tests", "Zega.Cpu.Tests\Zega.Cpu.Tests.csproj", "{A9577B2F-7436-43B7-BCCA-E1BA95C8EC1F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zega.Vdp", "Zega.Vdp\Zega.Vdp.csproj", "{2DABCC22-7480-4CC0-9608-BF778D1DB393}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zega.Sound", "Zega.Sound\Zega.Sound.csproj", "{3263093C-1575-49A5-AB55-62F045BA4193}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zega.Emulator", "Zega.Emulator\Zega.Emulator.csproj", "{5E59702D-85EF-4653-BFA4-7FBC86F4E27F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zega.Emulator", "Zega.Emulator\Zega.Emulator.csproj", "{5E59702D-85EF-4653-BFA4-7FBC86F4E27F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zega.Sound.Tests", "Zega.Sound.Tests\Zega.Sound.Tests.csproj", "{1E63742F-C7C3-4F7F-AD47-7E5B575EF2D6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{5E59702D-85EF-4653-BFA4-7FBC86F4E27F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E59702D-85EF-4653-BFA4-7FBC86F4E27F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E59702D-85EF-4653-BFA4-7FBC86F4E27F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E63742F-C7C3-4F7F-AD47-7E5B575EF2D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E63742F-C7C3-4F7F-AD47-7E5B575EF2D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E63742F-C7C3-4F7F-AD47-7E5B575EF2D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E63742F-C7C3-4F7F-AD47-7E5B575EF2D6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

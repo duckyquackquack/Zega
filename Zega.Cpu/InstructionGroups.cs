@@ -27,4 +27,11 @@
             : base(instructions, 0xFD)
         { }
     }
+
+    public class EDInstructionGroup : BaseInstructionGroup
+    {
+        public EDInstructionGroup(Dictionary<byte, Instruction> instructions)
+            : base(instructions, 0xED)
+        { }
+    }
 }

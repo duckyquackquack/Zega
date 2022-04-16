@@ -1,9 +1,8 @@
 ﻿using System.Collections;
 using NUnit.Framework;
-using Zega.Cpu;
-using Zega.Tests.Fuse.JsonFormat;
+using Zega.Cpu.Tests.Fuse.JsonFormat;
 
-namespace Zega.Tests
+namespace Zega.Cpu.Tests
 {
     [TestFixture]
     public class FuseTests

@@ -44,6 +44,42 @@
             }
         }
 
+        private void SetRegisterPairValueForPop(int registerCode, ushort value)
+        {
+            switch (registerCode)
+            {
+                case 0b00: Registers.BC = value; break;
+                case 0b01: Registers.DE = value; break;
+                case 0b10: Registers.HL = value; break;
+                case 0b11: Registers.AF = value; break;
+                default: throw new NotSupportedException($"Unrecognized register code: 0x{registerCode:X}");
+            }
+        }
+
+        private ushort GetRegisterPairValue(int registerCode)
+        {
+            return registerCode switch
+            {
+                0b00 => Registers.BC,
+                0b01 => Registers.DE,
+                0b10 => Registers.HL,
+                0b11 => Registers.StackPointer,
+                _ => throw new NotSupportedException($"Unrecognized register code: 0x{registerCode:X}")
+            };
+        }
+
+        private ushort GetRegisterPairValueForPush(int registerCode)
+        {
+            return registerCode switch
+            {
+                0b00 => Registers.BC,
+                0b01 => Registers.DE,
+                0b10 => Registers.HL,
+                0b11 => Registers.AF,
+                _ => throw new NotSupportedException($"Unrecognized register code: 0x{registerCode:X}")
+            };
+        }
+
         private bool GetFlagStatusFromFlagCode(int flagCode)
         {
             return flagCode switch
@@ -63,6 +99,24 @@
         private byte ReadImmediateByte()
         {
             return _memory.ReadByte(Registers.ProgramCounter++);
+        }
+
+        private ushort ReadImmediateUshort()
+        {
+            var lo = ReadImmediateByte();
+            var hi = ReadImmediateByte();
+            return hi.CombineWith(lo);
+        }
+
+        private ushort ReadUshortFromImmediateAddress()
+        {
+            var loAddress = ReadImmediateUshort();
+            var hiAddress = (ushort)(loAddress + 1);
+
+            var lo = _memory.ReadByte(loAddress);
+            var hi = _memory.ReadByte(hiAddress);
+
+            return hi.CombineWith(lo);
         }
     }
 }

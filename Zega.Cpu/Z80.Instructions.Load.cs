@@ -84,9 +84,7 @@
 
         private void LoadANN(byte opCode)
         {
-            var lo = ReadImmediateByte();
-            var hi = ReadImmediateByte();
-            LoadAFromAddress(hi.CombineWith(lo));
+            LoadAFromAddress(ReadImmediateUshort());
         }
 
         private void LoadBCA(byte opCode)
@@ -101,24 +99,95 @@
 
         private void LoadNNA(byte opCode)
         {
-            var lo = ReadImmediateByte();
-            var hi = ReadImmediateByte();
-            _memory.WriteByte(hi.CombineWith(lo), Registers.A);
+            _memory.WriteByte(ReadImmediateUshort(), Registers.A);
         }
 
         private void LoadDDNN(byte opCode)
         {
-            var lo = ReadImmediateByte();
-            var hi = ReadImmediateByte();
-
             var registerPairCode = (opCode & 0b00110000) >> 4;
+            SetRegisterPairValue(registerPairCode, ReadImmediateUshort());
+        }
 
-            SetRegisterPairValue(registerPairCode, hi.CombineWith(lo));
+        private void LoadDDFromAddressNN(byte opCode)
+        {
+            var registerPairCode = (opCode & 0b00110000) >> 4;
+            SetRegisterPairValue(registerPairCode, ReadUshortFromImmediateAddress());
+        }
+
+        private void LoadIndexXFromAddressNN(byte opCode)
+        {
+            Registers.IndexX = ReadUshortFromImmediateAddress();
+        }
+
+        private void LoadIndexYFromAddressNN(byte opCode)
+        {
+            Registers.IndexY = ReadUshortFromImmediateAddress();
+        }
+
+        private void LoadIndexXNN(byte opCode)
+        {
+            Registers.IndexX = ReadImmediateUshort();
+        }
+
+        private void LoadIndexYNN(byte opCode)
+        {
+            Registers.IndexY = ReadImmediateUshort();
         }
 
         private void LoadAFromAddress(ushort address)
         {
             Registers.A = _memory.ReadByte(address);
+        }
+
+        private void LoadHLFromAddressNN(byte opCode)
+        {
+            Registers.HL = ReadUshortFromImmediateAddress();
+        }
+
+        private void LoadNNHL(byte opCode)
+        {
+            var address = ReadImmediateUshort();
+            _memory.WriteByte(address, Registers.L);
+            _memory.WriteByte((ushort)(address + 1), Registers.H);
+        }
+
+        private void LoadAddressNNFromDD(byte opCode)
+        {
+            var registerPairCode = (opCode & 0b00110000) >> 4;
+            var registerPairValue = GetRegisterPairValue(registerPairCode);
+
+            var address = ReadImmediateUshort();
+            _memory.WriteByte(address, registerPairValue.Lo());
+            _memory.WriteByte((ushort)(address + 1), registerPairValue.Hi());
+        }
+
+        private void LoadAddressNNFromIndexX(byte opCode)
+        {
+            var address = ReadImmediateUshort();
+            _memory.WriteByte(address, Registers.IndexX.Lo());
+            _memory.WriteByte((ushort)(address + 1), Registers.IndexX.Hi());
+        }
+
+        private void LoadAddressNNFromIndexY(byte opCode)
+        {
+            var address = ReadImmediateUshort();
+            _memory.WriteByte(address, Registers.IndexY.Lo());
+            _memory.WriteByte((ushort)(address + 1), Registers.IndexY.Hi());
+        }
+
+        private void LoadSPFromHL(byte opCode)
+        {
+            Registers.StackPointer = Registers.HL;
+        }
+
+        private void LoadSPFromIndexX(byte opCode)
+        {
+            Registers.StackPointer = Registers.IndexX;
+        }
+
+        private void LoadSPFromIndexY(byte opCode)
+        {
+            Registers.StackPointer = Registers.IndexY;
         }
 
         private void LoadIndexDN(ushort index)
@@ -142,6 +211,53 @@
             var d = (sbyte)ReadImmediateByte();
             var value = _memory.ReadByte((ushort)(index + d));
             SetRegisterValue(destinationRegister, value);
+        }
+
+        private void PushRegisterPair(byte opCode)
+        {
+            var registerPairCode = (opCode & 0b00110000) >> 4;
+            var registerPairValue = GetRegisterPairValueForPush(registerPairCode);
+
+            _memory.WriteByte(--Registers.StackPointer, registerPairValue.Hi());
+            _memory.WriteByte(--Registers.StackPointer, registerPairValue.Lo());
+        }
+
+        private void PushIndexX(byte opCode)
+        {
+            _memory.WriteByte(--Registers.StackPointer, Registers.IndexX.Hi());
+            _memory.WriteByte(--Registers.StackPointer, Registers.IndexX.Lo());
+        }
+
+        private void PushIndexY(byte opCode)
+        {
+            _memory.WriteByte(--Registers.StackPointer, Registers.IndexY.Hi());
+            _memory.WriteByte(--Registers.StackPointer, Registers.IndexY.Lo());
+        }
+
+        private void PopRegisterPair(byte opCode)
+        {
+            var registerPairCode = (opCode & 0b00110000) >> 4;
+
+            var lo = _memory.ReadByte(Registers.StackPointer++);
+            var hi = _memory.ReadByte(Registers.StackPointer++);
+
+            SetRegisterPairValueForPop(registerPairCode, hi.CombineWith(lo));
+        }
+
+        private void PopIndexX(byte opCode)
+        {
+            var lo = _memory.ReadByte(Registers.StackPointer++);
+            var hi = _memory.ReadByte(Registers.StackPointer++);
+
+            Registers.IndexX = hi.CombineWith(lo);
+        }
+
+        private void PopIndexY(byte opCode)
+        {
+            var lo = _memory.ReadByte(Registers.StackPointer++);
+            var hi = _memory.ReadByte(Registers.StackPointer++);
+
+            Registers.IndexY = hi.CombineWith(lo);
         }
     }
 }

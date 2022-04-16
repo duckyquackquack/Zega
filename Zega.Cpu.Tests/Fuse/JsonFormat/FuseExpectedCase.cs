@@ -1,9 +1,9 @@
 ﻿using System.Globalization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using Zega.Tests.Fuse.OriginalFormat;
+using Zega.Cpu.Tests.Fuse.OriginalFormat;
 
-namespace Zega.Tests.Fuse.JsonFormat
+namespace Zega.Cpu.Tests.Fuse.JsonFormat
 {
     public partial class FuseExpectedCase
     {

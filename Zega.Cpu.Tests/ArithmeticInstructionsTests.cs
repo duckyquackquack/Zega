@@ -1,9 +1,8 @@
 ﻿using System.Collections;
 using Moq;
 using NUnit.Framework;
-using Zega.Cpu;
 
-namespace Zega.Tests
+namespace Zega.Cpu.Tests
 {
     // TODO, with the Fuse tests testing the f out of all instructions, is it really worth writing our own instruction tests?
     [TestFixture]

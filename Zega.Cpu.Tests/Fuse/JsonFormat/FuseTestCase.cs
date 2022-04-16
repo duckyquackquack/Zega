@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace Zega.Tests.Fuse.JsonFormat
+namespace Zega.Cpu.Tests.Fuse.JsonFormat
 {
     public partial class FuseTestCase
     {

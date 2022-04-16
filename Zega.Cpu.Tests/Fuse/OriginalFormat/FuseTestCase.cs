@@ -1,9 +1,10 @@
-﻿namespace Zega.Tests.Fuse.OriginalFormat
+﻿namespace Zega.Cpu.Tests.Fuse.OriginalFormat
 {
-    public class FuseExpectedCase
+    public class FuseTestCase
     {
         public string TestDescription { get; set; } = null!;
-        public List<FuseEvent> Events { get; set; } = new();
+
+        // Starting values for the registers
         public ushort AF { get; set; }
         public ushort BC { get; set; }
         public ushort DE { get; set; }
@@ -16,16 +17,17 @@
         public ushort IndexY { get; set; }
         public ushort StackPointer { get; set; }
         public ushort ProgramCounter { get; set; }
-
         public byte InterruptVector { get; set; }
         public byte MemoryRefresh { get; set; }
         public bool InterruptFlipFlop1 { get; set; }
         public bool InterruptFlipFlop2 { get; set; }
         public byte InterruptMode { get; set; }
+
         public bool Halted { get; set; }
+        
+        // Number of T-cycles the test should run for
+        public uint Cycles { get; set; }
 
-        public uint Cycles { get; set; } // Number of T-cycles the test should have ran
-
-        public List<TestCaseMemoryBlock> ExpectedMemoryBlocks { get; set; } = new();
+        public List<TestCaseMemoryBlock> MemoryBlocks { get; set; } = new();
     }
 }

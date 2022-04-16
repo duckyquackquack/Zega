@@ -1,6 +1,6 @@
 ﻿namespace Zega.Sound
 {
-    internal class NoiseChannel : ChannelBase, IChannel
+    public class NoiseChannel : INoiseChannel
     {
         private readonly INoiseGenerator _whiteNoiseGenerator;
         private readonly INoiseGenerator _periodicNoiseGenerator;
@@ -11,15 +11,8 @@
             _periodicNoiseGenerator = new PeriodicNoiseGenerator();
         }
 
-        public void SetVolume(byte volume)
-        {
-            Volume = (byte)(volume & 15);
-        }
-
-        public void SetTone(int tone)
-        {
-            throw new NotImplementedException();
-        }
+        public byte Volume { get; set; }
+        public ushort Control { get; set; }
 
         public void Tick(int cycles)
         {

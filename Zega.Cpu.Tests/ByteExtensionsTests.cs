@@ -1,7 +1,6 @@
 ﻿using NUnit.Framework;
-using Zega.Cpu;
 
-namespace Zega.Tests
+namespace Zega.Cpu.Tests
 {
     [TestFixture]
     internal class ByteExtensionsTests

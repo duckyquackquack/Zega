@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace Zega.Tests.Fuse.OriginalFormat
+namespace Zega.Cpu.Tests.Fuse.OriginalFormat
 {
     public class FuseExpectedCaseLoader
     {
