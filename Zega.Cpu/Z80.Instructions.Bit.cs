@@ -40,6 +40,58 @@
             SetDisplacementBitTestFlags(result, bit, address);
         }
 
+        private void SetBIndexXD(byte opCode, sbyte displacement)
+        {
+            SetBIndexD(Registers.IndexX, opCode, displacement);
+        }
+
+        private void SetBIndexYD(byte opCode, sbyte displacement)
+        {
+            SetBIndexD(Registers.IndexY, opCode, displacement);
+        }
+
+        private void ResetBIndexXD(byte opCode, sbyte displacement)
+        {
+            ResetBIndexD(Registers.IndexX, opCode, displacement);
+        }
+
+        private void ResetBIndexYD(byte opCode, sbyte displacement)
+        {
+            ResetBIndexD(Registers.IndexY, opCode, displacement);
+        }
+
+        private void SetBIndexD(ushort index, byte opCode, sbyte displacement)
+        {
+            var bit = (opCode & 0b00111000) >> 3;
+            var address = (ushort) (index + displacement);
+            var value = _memory.ReadByte(address);
+
+            var result = (byte) (value | (1 << bit));
+            _memory.WriteByte(address, result);
+
+            var registerCode = opCode & 0b00000111;
+            if (registerCode != 6) // 6 is documented and does not have the below undocumented behaviour
+            {
+                SetRegisterValue(registerCode, result);
+            }
+        }
+
+        private void ResetBIndexD(ushort index, byte opCode, sbyte displacement)
+        {
+            var bit = (opCode & 0b00111000) >> 3;
+            var address = (ushort)(index + displacement);
+            var value = _memory.ReadByte(address);
+
+            var result = (byte)(value & ~(1 << bit));
+            _memory.WriteByte(address, result);
+
+            var registerCode = opCode & 0b00000111;
+            if (registerCode != 6) // 6 is documented and does not have the below undocumented behaviour
+            {
+                SetRegisterValue(registerCode, result);
+            }
+        }
+
         private void SetDisplacementBitTestFlags(int result, int bit, ushort address)
         {
             Registers.SetFlag(Flags.Zero, result == 0);

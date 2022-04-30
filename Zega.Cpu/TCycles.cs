@@ -21,5 +21,6 @@
         public static List<int> T44354 { get; } = new() { 4, 4, 3, 5, 4 };
         public static List<int> T443333 { get; } = new() { 4, 4, 3, 3, 3, 3 };
         public static List<int> T443435 { get; } = new() { 4, 4, 3, 4, 3, 5 };
+        public static List<int> T443543 { get; } = new() { 4, 4, 3, 5, 4, 3 };
     }
 }
