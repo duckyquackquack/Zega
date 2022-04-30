@@ -14,12 +14,151 @@
         private readonly IMemory _memory;
 
         private readonly IList<IInstructionGroup> _prefixedInstructionGroups;
+        private readonly IList<IDisplacementInstructionGroup> _displacementInstructionGroups;
         private readonly IInstructionGroup _nonPrefixedInstructionGroup;
 
         public Z80(IMemory memory, Registers? registers = null)
         {
             _memory = memory ?? throw new ArgumentNullException(nameof(memory));
             Registers = registers ?? new Registers();
+
+            _displacementInstructionGroups = new List<IDisplacementInstructionGroup>
+            {
+                new DDCBInstructionGroup(new Dictionary<byte, DisplacementInstruction>
+                {
+                    { 0x40, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) },
+                    { 0x41, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) },
+                    { 0x42, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) },
+                    { 0x43, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) },
+                    { 0x44, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) },
+                    { 0x45, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) },
+                    { 0x46, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) },
+                    { 0x47, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) },
+                    { 0x48, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) },
+                    { 0x49, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) },
+                    { 0x4A, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) },
+                    { 0x4B, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) },
+                    { 0x4C, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) },
+                    { 0x4D, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) },
+                    { 0x4E, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) },
+                    { 0x4F, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) },
+                    { 0x50, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) },
+                    { 0x51, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) },
+                    { 0x52, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) },
+                    { 0x53, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) },
+                    { 0x54, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) },
+                    { 0x55, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) },
+                    { 0x56, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) },
+                    { 0x57, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) },
+                    { 0x58, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) },
+                    { 0x59, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) },
+                    { 0x5A, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) },
+                    { 0x5B, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) },
+                    { 0x5C, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) },
+                    { 0x5D, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) },
+                    { 0x5E, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) },
+                    { 0x5F, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) },
+                    { 0x60, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) },
+                    { 0x61, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) },
+                    { 0x62, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) },
+                    { 0x63, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) },
+                    { 0x64, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) },
+                    { 0x65, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) },
+                    { 0x66, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) },
+                    { 0x67, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) },
+                    { 0x68, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) },
+                    { 0x69, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) },
+                    { 0x6A, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) },
+                    { 0x6B, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) },
+                    { 0x6C, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) },
+                    { 0x6D, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) },
+                    { 0x6E, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) },
+                    { 0x6F, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) },
+                    { 0x70, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) },
+                    { 0x71, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) },
+                    { 0x72, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) },
+                    { 0x73, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) },
+                    { 0x74, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) },
+                    { 0x75, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) },
+                    { 0x76, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) },
+                    { 0x77, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) },
+                    { 0x78, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) },
+                    { 0x79, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) },
+                    { 0x7A, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) },
+                    { 0x7B, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) },
+                    { 0x7C, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) },
+                    { 0x7D, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) },
+                    { 0x7E, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) },
+                    { 0x7F, new DisplacementInstruction(BitBIndexXD, TCycles.T44354) }
+                }),
+                new FDCBInstructionGroup(new Dictionary<byte, DisplacementInstruction>
+                {
+                    { 0x40, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) },
+                    { 0x41, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) },
+                    { 0x42, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) },
+                    { 0x43, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) },
+                    { 0x44, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) },
+                    { 0x45, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) },
+                    { 0x46, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) },
+                    { 0x47, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) },
+                    { 0x48, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) },
+                    { 0x49, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) },
+                    { 0x4A, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) },
+                    { 0x4B, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) },
+                    { 0x4C, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) },
+                    { 0x4D, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) },
+                    { 0x4E, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) },
+                    { 0x4F, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) },
+                    { 0x50, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) },
+                    { 0x51, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) },
+                    { 0x52, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) },
+                    { 0x53, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) },
+                    { 0x54, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) },
+                    { 0x55, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) },
+                    { 0x56, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) },
+                    { 0x57, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) },
+                    { 0x58, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) },
+                    { 0x59, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) },
+                    { 0x5A, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) },
+                    { 0x5B, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) },
+                    { 0x5C, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) },
+                    { 0x5D, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) },
+                    { 0x5E, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) },
+                    { 0x5F, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) },
+                    { 0x60, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) },
+                    { 0x61, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) },
+                    { 0x62, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) },
+                    { 0x63, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) },
+                    { 0x64, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) },
+                    { 0x65, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) },
+                    { 0x66, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) },
+                    { 0x67, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) },
+                    { 0x68, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) },
+                    { 0x69, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) },
+                    { 0x6A, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) },
+                    { 0x6B, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) },
+                    { 0x6C, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) },
+                    { 0x6D, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) },
+                    { 0x6E, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) },
+                    { 0x6F, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) },
+                    { 0x70, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) },
+                    { 0x71, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) },
+                    { 0x72, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) },
+                    { 0x73, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) },
+                    { 0x74, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) },
+                    { 0x75, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) },
+                    { 0x76, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) },
+                    { 0x77, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) },
+                    { 0x78, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) },
+                    { 0x79, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) },
+                    { 0x7A, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) },
+                    { 0x7B, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) },
+                    { 0x7C, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) },
+                    { 0x7D, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) },
+                    { 0x7E, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) },
+                    { 0x7F, new DisplacementInstruction(BitBIndexYD, TCycles.T44354) }
+                })
+            };
 
             _prefixedInstructionGroups = new List<IInstructionGroup>
             {
@@ -241,19 +380,32 @@
                     { 0x86, new Instruction(AddAIXD, TCycles.T44353) },
                     { 0x8E, new Instruction(AddWithCarryAIXD, TCycles.T44353) },
                     { 0xE1, new Instruction(PopIndexX, TCycles.T4433) },
+                    { 0xE3, new Instruction(ExchangeIndexXWithSPDeref, TCycles.T443435) },
                     { 0xE5, new Instruction(PushIndexX, TCycles.T4533) },
                     { 0xF9, new Instruction(LoadSPFromIndexX, TCycles.T46) }
                 }),
                 new EDInstructionGroup(new Dictionary<byte, Instruction>
                 {
                     { 0x43, new Instruction(LoadAddressNNFromDD, TCycles.T443333) },
+                    { 0x44, new Instruction(NegateA, TCycles.T44) },
                     { 0x4B, new Instruction(LoadDDFromAddressNN, TCycles.T443333) },
+                    { 0x4C, new Instruction(NegateA, TCycles.T44) },
                     { 0x53, new Instruction(LoadAddressNNFromDD, TCycles.T443333) },
+                    { 0x54, new Instruction(NegateA, TCycles.T44) },
                     { 0x5B, new Instruction(LoadDDFromAddressNN, TCycles.T443333) },
+                    { 0x5C, new Instruction(NegateA, TCycles.T44) },
                     { 0x63, new Instruction(LoadAddressNNFromDD, TCycles.T443333) },
+                    { 0x64, new Instruction(NegateA, TCycles.T44) },
                     { 0x6B, new Instruction(LoadDDFromAddressNN, TCycles.T443333) },
+                    { 0x6C, new Instruction(NegateA, TCycles.T44) },
                     { 0x73, new Instruction(LoadAddressNNFromDD, TCycles.T443333) },
-                    { 0x7B, new Instruction(LoadDDFromAddressNN, TCycles.T443333) }
+                    { 0x74, new Instruction(NegateA, TCycles.T44) },
+                    { 0x7B, new Instruction(LoadDDFromAddressNN, TCycles.T443333) },
+                    { 0x7C, new Instruction(NegateA, TCycles.T44) },
+                    { 0xA0, new Instruction(LDI, TCycles.T4435) },
+                    { 0xA1, new Instruction(CPI, TCycles.T4435) },
+                    { 0xA8, new Instruction(LDD, TCycles.T4435) },
+                    { 0xA9, new Instruction(CPD, TCycles.T4435) }
                 }),
                 new FDInstructionGroup(new Dictionary<byte, Instruction>
                 {
@@ -278,6 +430,7 @@
                     { 0x86, new Instruction(AddAIYD, TCycles.T44353) },
                     { 0x8E, new Instruction(AddWithCarryAIYD, TCycles.T44353) },
                     { 0xE1, new Instruction(PopIndexY, TCycles.T4433) },
+                    { 0xE3, new Instruction(ExchangeIndexYWithSPDeref, TCycles.T443435) },
                     { 0xE5, new Instruction(PushIndexY, TCycles.T4533) },
                     { 0xF9, new Instruction(LoadSPFromIndexY, TCycles.T46) }
                 })
@@ -288,6 +441,7 @@
                 { 0x00, new Instruction(NOP, TCycles.T4) },
                 { 0x01, new Instruction(LoadDDNN, TCycles.T433) },
                 { 0x02, new Instruction(LoadBCA, TCycles.T43) },
+                { 0x03, new Instruction(IncrementRegisterPair, TCycles.T6) },
                 { 0x04, new Instruction(IncrementR, TCycles.T4) },
                 { 0x06, new Instruction(LoadRN, TCycles.T43) },
                 { 0x07, new Instruction(RotateLeftCarryA, TCycles.T4) },
@@ -297,6 +451,7 @@
                 { 0x0E, new Instruction(LoadRN, TCycles.T43) },
                 { 0x11, new Instruction(LoadDDNN, TCycles.T433) },
                 { 0x12, new Instruction(LoadDEA, TCycles.T43) },
+                { 0x13, new Instruction(IncrementRegisterPair, TCycles.T6) },
                 { 0x14, new Instruction(IncrementR, TCycles.T4) },
                 { 0x16, new Instruction(LoadRN, TCycles.T43) },
                 { 0x17, new Instruction(RotateLeftA, TCycles.T4) },
@@ -305,6 +460,7 @@
                 { 0x1E, new Instruction(LoadRN, TCycles.T43) },
                 { 0x21, new Instruction(LoadDDNN, TCycles.T433) },
                 { 0x22, new Instruction(LoadNNHL, TCycles.T43333) },
+                { 0x23, new Instruction(IncrementRegisterPair, TCycles.T6) },
                 { 0x24, new Instruction(IncrementR, TCycles.T4) },
                 { 0x26, new Instruction(LoadRN, TCycles.T43) },
                 { 0x2A, new Instruction(LoadHLFromAddressNN, TCycles.T43333) },
@@ -312,6 +468,7 @@
                 { 0x2E, new Instruction(LoadRN, TCycles.T43) },
                 { 0x31, new Instruction(LoadDDNN, TCycles.T433) },
                 { 0x32, new Instruction(LoadNNA, TCycles.T4333) },
+                { 0x33, new Instruction(IncrementRegisterPair, TCycles.T6) },
                 { 0x36, new Instruction(LoadHLN, TCycles.T433) },
                 { 0x3A, new Instruction(LoadANN, TCycles.T4333) },
                 { 0x3C, new Instruction(IncrementR, TCycles.T4) },
@@ -416,6 +573,7 @@
                 { 0xDA, new Instruction(JumpCCNN, TCycles.T433) },
                 { 0xE1, new Instruction(PopRegisterPair, TCycles.T433) },
                 { 0xE2, new Instruction(JumpCCNN, TCycles.T433) },
+                { 0xE3, new Instruction(ExchangeHLWithSPDeref, TCycles.T43435) },
                 { 0xE5, new Instruction(PushRegisterPair, TCycles.T533) },
                 { 0xEA, new Instruction(JumpCCNN, TCycles.T433) },
                 { 0xEB, new Instruction(ExchangeDEHL, TCycles.T4) },
@@ -429,8 +587,29 @@
 
         public uint Step()
         {
-            var opCode = _memory.ReadByte(Registers.ProgramCounter++);
+            var opCode = ReadImmediateByte();
 
+            if (_displacementInstructionGroups.Any(x => x.ParentGroupPrefix == opCode))
+            {
+                var nextByte = ReadImmediateByte();
+                var displacementInstructionGroup = _displacementInstructionGroups.FirstOrDefault(x => x.Prefix == nextByte && x.ParentGroupPrefix == opCode);
+
+                if (displacementInstructionGroup != null)
+                {
+                    var displacement = ReadImmediateByte();
+                    var displacementOpCode = ReadImmediateByte();
+                    return displacementInstructionGroup.Execute(displacementOpCode, (sbyte)displacement);
+                }
+
+                Registers.ProgramCounter--;
+                return ExecuteStandardInstruction(opCode);
+            }
+
+            return ExecuteStandardInstruction(opCode);
+        }
+
+        private uint ExecuteStandardInstruction(byte opCode)
+        {
             var prefixedInstructionGroup = _prefixedInstructionGroups.FirstOrDefault(x => x.Prefix == opCode);
             return prefixedInstructionGroup?.Execute(_memory.ReadByte(Registers.ProgramCounter++))
                    ?? _nonPrefixedInstructionGroup.Execute(opCode);

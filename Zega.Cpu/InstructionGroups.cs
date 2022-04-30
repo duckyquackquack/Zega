@@ -34,4 +34,18 @@
             : base(instructions, 0xED)
         { }
     }
+
+    public class DDCBInstructionGroup : BaseDisplacementInstructionGroup
+    {
+        public DDCBInstructionGroup(Dictionary<byte, DisplacementInstruction> instructions) 
+            : base(instructions, 0xDD, 0xCB)
+        { }
+    }
+
+    public class FDCBInstructionGroup : BaseDisplacementInstructionGroup
+    {
+        public FDCBInstructionGroup(Dictionary<byte, DisplacementInstruction> instructions)
+            : base(instructions, 0xFD, 0xCB)
+        { }
+    }
 }

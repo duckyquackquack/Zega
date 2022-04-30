@@ -21,6 +21,8 @@ namespace Zega.Cpu.Tests
                 while (cyclesRan < testCase.Cycles)
                     cyclesRan += cpu.Step();
 
+                // Console.WriteLine(cpu.DebugOutput());
+
                 AssertFinalState(cpu, memory, expectedCase, cyclesRan);
             }
             catch (Exception e)
@@ -53,7 +55,7 @@ namespace Zega.Cpu.Tests
 
             Assert.Multiple(() =>
             {
-                Assert.That(Convert.ToString(cpu.Registers.AF, 2), Is.EqualTo(Convert.ToString(expectedCase.Af, 2)), () => $"AF. Got: A = 0x{cpu.Registers.A:X}, F = 0b{Convert.ToString((int) cpu.Registers.F, 2)}");
+                Assert.That(Convert.ToString(cpu.Registers.AF, 2).PadLeft(16, '0'), Is.EqualTo(Convert.ToString(expectedCase.Af, 2).PadLeft(16, '0')), () => $"AF. Got: A = 0b{Convert.ToString((int)cpu.Registers.A, 2).PadLeft(8, '0')}, F = 0b{Convert.ToString((int) cpu.Registers.F, 2).PadLeft(8, '0')}");
                 Assert.That(cpu.Registers.BC, Is.EqualTo(expectedCase.Bc), () => $"BC. Got: B = 0x{cpu.Registers.B:X}, C = 0x{cpu.Registers.C:X}");
                 Assert.That(cpu.Registers.DE, Is.EqualTo(expectedCase.De), () => $"DE. Got: D = 0x{cpu.Registers.D:X}, E = 0x{cpu.Registers.E:X}");
                 Assert.That(cpu.Registers.HL, Is.EqualTo(expectedCase.Hl), () => $"HL. Got: H = 0x{cpu.Registers.H:X}, L = 0x{cpu.Registers.L:X}");

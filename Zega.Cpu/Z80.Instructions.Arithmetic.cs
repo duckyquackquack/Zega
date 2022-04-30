@@ -154,6 +154,23 @@
             SetRegisterValue(registerCode, (byte)sum);
         }
 
+        private void IncrementRegisterPair(byte opCode)
+        {
+            var registerPairCode = (opCode & 0b00110000) >> 4;
+            var registerPairValue = GetRegisterPairValue(registerPairCode);
+            SetRegisterPairValue(registerPairCode, (ushort) (registerPairValue + 1));
+        }
+
+        private void IncrementIndexX(byte opCode)
+        {
+            Registers.IndexX++;
+        }
+
+        private void IncrementIndexY(byte opCode)
+        {
+            Registers.IndexY++;
+        }
+
         private void SetAddFlags(byte a, byte b, int sum)
         {
             Registers.SetFlag(Flags.Sign, (sum & 128) > 0);

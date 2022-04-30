@@ -12,10 +12,14 @@
         public static List<int> T533 { get; } = new() { 5, 3, 3 };
         public static List<int> T4333 { get; } = new() { 4, 3, 3, 3 };
         public static List<int> T4433 { get; } = new() { 4, 4, 3, 3 };
+        public static List<int> T4435 { get; } = new() { 4, 4, 3, 5 };
         public static List<int> T4443 { get; } = new() { 4, 4, 4, 3 };
         public static List<int> T4533 { get; } = new() { 4, 5, 3, 3 };
         public static List<int> T43333 { get; } = new() { 4, 3, 3, 3, 3 };
+        public static List<int> T43435 { get; } = new() { 4, 3, 4, 3, 5 };
         public static List<int> T44353 { get; } = new() { 4, 4, 3, 5, 3 };
+        public static List<int> T44354 { get; } = new() { 4, 4, 3, 5, 4 };
         public static List<int> T443333 { get; } = new() { 4, 4, 3, 3, 3, 3 };
+        public static List<int> T443435 { get; } = new() { 4, 4, 3, 4, 3, 5 };
     }
 }
